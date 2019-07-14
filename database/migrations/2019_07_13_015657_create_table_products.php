@@ -18,7 +18,6 @@ class CreateTableProducts extends Migration
             $table->enum('type',['Livro','CD']);
             $table->string('name');
             $table->text('description');
-            $table->boolean('lent');
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+//Rotas dos produtos
 Route::namespace('Api')->name('api.')->group(function(){
     Route::prefix('products')->group(function(){
         
@@ -31,6 +32,7 @@ Route::namespace('Api')->name('api.')->group(function(){
     });
 });
 
+//Rotas dos contatos
 Route::namespace('Api')->name('api.')->group(function(){
         Route::prefix('contacts')->group(function(){
         
@@ -42,4 +44,18 @@ Route::namespace('Api')->name('api.')->group(function(){
         Route::delete('/{id}','ContactController@DeleteContact')->name('contacts_delete');
 
     });
+});
+
+//Rotas dos emprestimos
+Route::namespace('Api')->name('api.')->group(function(){
+    Route::prefix('lents')->group(function(){
+    
+    Route::get('/','LentController@index')->name('lent_index');
+    Route::get('/{id}','LentController@id')->name('lent_id');
+
+    Route::post('/','LentController@CreateLent')->name('contacts_insert');
+    Route::put('/{id}','ContactController@UpdateContact')->name('contacts_update');
+    Route::delete('/{id}','ContactController@DeleteContact')->name('contacts_delete');
+
+});
 });

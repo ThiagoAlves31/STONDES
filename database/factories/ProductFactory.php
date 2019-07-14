@@ -10,7 +10,6 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'type' => (rand(0,1) == true) ? 'CD' : 'Livro',
         'name' => $faker->name,
-        'description' =>$faker->text,
-        'lent' => (rand(0,1) == true) ? 1 : 0,
+        'description' =>$faker->text
     ];
 });

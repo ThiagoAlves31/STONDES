@@ -20,15 +20,16 @@ class CreateTableLents extends Migration
             $table->foreign('contact_id')
                   ->references('contact_id')
                   ->on('contacts')
-                  ->onUpdate('cascade');
+                  ->onDelete('cascade');
             
             $table->integer('product_id')->unique()->unsigned();
             $table->foreign('product_id')
                   ->references('product_id')
                   ->on('products')
-                  ->onUpdate('cascade');
+                  ->onDelete('cascade');
 
-            $table->date('lent_date');
+            $table->timestamp('lent_date')->useCurrent();
+            $table->timestamp('return_date')->nullable();
             $table->timestamps();
         });
     }
