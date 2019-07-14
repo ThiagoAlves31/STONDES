@@ -28,7 +28,7 @@ class ProductController extends Controller
 
     public function id($id)
     {
-        $product = $this->product->find($id);
+        $product = $this->product->where('product_id',$id)->first();
 
         if (!$product) return response()->json(['data' => ['msg' => 'Produto nao encontrado!']],404);
         $data = ['data' => $product];
@@ -39,7 +39,7 @@ class ProductController extends Controller
     public function InsertProduct(Request $request)
     {   
         try{
-            
+
             $productData = $request->all();
             $this->product->Create($productData);
             
@@ -64,7 +64,7 @@ class ProductController extends Controller
         try{
             
             $productData = $request->all();
-            $product     = $this->product->find($id);
+            $product     = $this->product->where('product_id',$id);
 
             $product->Update($productData);
             
@@ -88,7 +88,7 @@ class ProductController extends Controller
         try{
             
             $productData = $request->all();
-            $product     = $this->product->find($id);
+            $product     = $this->product->where('product_id',$id);
 
             if(!$product) return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404);
 
