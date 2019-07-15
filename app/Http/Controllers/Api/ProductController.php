@@ -30,7 +30,7 @@ class ProductController extends Controller
     {
         $product = $this->product->where('product_id',$id)->first();
 
-        if (!$product) return response()->json(['data' => ['msg' => 'Produto nao encontrado!']],404);
+        if (!$product) return response()->json(['data' => ['msg' => 'Produto não encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
         $data = ['data' => $product];
         return response()->json($data);
 
@@ -90,7 +90,7 @@ class ProductController extends Controller
             $productData = $request->all();
             $product     = $this->product->where('product_id',$id);
 
-            if(!$product) return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404);
+            if(!$product) return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
             $product->Delete($productData);
             

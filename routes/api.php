@@ -53,9 +53,8 @@ Route::namespace('Api')->name('api.')->group(function(){
     Route::get('/','LentController@index')->name('lent_index');
     Route::get('/{id}','LentController@id')->name('lent_id');
 
-    Route::post('/','LentController@CreateLent')->name('contacts_insert');
-    Route::put('/{id}','ContactController@UpdateContact')->name('contacts_update');
-    Route::delete('/{id}','ContactController@DeleteContact')->name('contacts_delete');
+    Route::post('/','LentController@CreateLent')->name('lent_insert');
+    Route::put('/','LentController@ReturnLent')->name('lent_update');
 
 });
 });

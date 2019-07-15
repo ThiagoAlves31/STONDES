@@ -22,7 +22,7 @@ class CreateTableLents extends Migration
                   ->on('contacts')
                   ->onDelete('cascade');
             
-            $table->integer('product_id')->unique()->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->foreign('product_id')
                   ->references('product_id')
                   ->on('products')

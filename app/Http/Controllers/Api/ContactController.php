@@ -30,7 +30,7 @@ class ContactController extends Controller
     {
         $contact = $this->contact->where('contact_id',$id)->first();
 
-        if (!$contact) return response()->json(['data' => ['msg' => 'Contato nao encontrado!']],404);
+        if (!$contact) return response()->json(['data' => ['msg' => 'Contato nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
         $data = ['data' => $contact];
         return response()->json($data);
 
@@ -90,7 +90,7 @@ class ContactController extends Controller
             $contactData = $request->all();
             $contact     = $this->contact->where('contact_id',$id);
 
-            if(!$contact) return response()->json(['data' => ['msg' => 'Contato nao encontrado!']],404);
+            if(!$contact) return response()->json(['data' => ['msg' => 'Contato nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
             $contact->Delete($contactData);
             
