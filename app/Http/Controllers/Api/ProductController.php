@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $data = ['data' => $this->product->paginate(10) ];
+        $data = ['data' => $this->product->all()];
         return response()->json($data);
     
     }
@@ -65,7 +65,6 @@ class ProductController extends Controller
             
             $productData = $request->all();
             $product     = $this->product->where('product_id',$id);
-
             $product->Update($productData);
             
             $data = ['data' => ['msg'=> 'Produto atualizado com sucesso!']]; 
@@ -74,25 +73,29 @@ class ProductController extends Controller
         }catch(\Exception $e){
             
             if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage()));
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
             }
 
-            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados'));
+            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados',1010),422);
 
         }
 
     }
 
-    public function DeleteProduct(Request $request,$id)
+    public function DeleteProduct($id)
     {   
         try{
-            
-            $productData = $request->all();
-            $product     = $this->product->where('product_id',$id);
+  
+            $product= $this->product->where('product_id',$id)->first();
 
-            if(!$product) return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+            if(!$product)
+            {
+                return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
-            $product->Delete($productData);
+            }
+
+            $product = $this->product->where('product_id',$id);
+            $product->Delete();
             
             $data = ['data' => ['msg'=> 'Produto removido com sucesso!']]; 
             return response()->json($data,200);
@@ -100,10 +103,10 @@ class ProductController extends Controller
         }catch(\Exception $e){
             
             if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage()));
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
             }
 
-            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados'));
+            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados'),1010);
 
         }
 

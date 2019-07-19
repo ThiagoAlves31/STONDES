@@ -17,7 +17,7 @@ class CreateTableProducts extends Migration
             $table->increments('product_id');
             $table->enum('type',['Livro','CD']);
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

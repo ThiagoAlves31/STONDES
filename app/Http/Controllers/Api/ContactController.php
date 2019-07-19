@@ -21,7 +21,7 @@ class ContactController extends Controller
     public function index()
     {
         
-        $data = ['data' => $this->contact->paginate(10) ];
+        $data = ['data' => $this->contact->all() ];
         return response()->json($data);
     
     }

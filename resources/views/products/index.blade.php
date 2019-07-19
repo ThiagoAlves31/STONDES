@@ -4,15 +4,18 @@
 
 @section('content')
     <div class="container">
-        <h3 class="center">Produtos</h3>
+        <div class="row"><h3>Produtos disponíveis</h3></div>
+        <div class="row">
+            <div class=".col-md"><div id="msg"></div></div>
+        </div>
         <div class="row">
         <div class=".col-md">
-            <table class="table" id="table_products">
+            <table class="table table-striped" id="table_products">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>Código</th>
                     <th>Tipo</th>
-                    <th>Titulo</th>
+                    <th>Título</th>
                     <th>Descrição</th>
                     <th>Emprestar</th>
                     <th>Editar</th>
@@ -35,41 +38,91 @@
 @section('script')
 <script type="text/javascript">
      $(document).ready(function(){
-        $.ajax({
-            method:"get",
-            dataType:"json",
-            url:"api/products",
-            success: function(data){
-                $.each(data['data']['data'],function(key,level){
-                    $("#table_products").append(
-                        '<tr>'+
-                            '<td>'+level.product_id+'</td>'+
-                            '<td>'+level.type+'</td>'+
-                            '<td>'+level.name+'</td>'+
-                            '<td>'+level.description+'</td>'+
-                            '<td>'+level.product_id+'</td>'+
-                            '<td>'+level.product_id+'</td>'+
-                            '<td><a class="btn btn-danger" onclick="ProdRemove(\''+level.product_id+'\')" id="Hremove" >'+
-                            'X</a></td>'+
-                        '</tr>'
-                    );
-                })
-            }
-        })
+        LoadProducts();        
      });
      
-     function ProdRemove(id){
-        $('#Hremove').click(function(){
+     function LoadProducts(){
+            $.ajaxSetup({
+                headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')}
+            });
+
             $.ajax({
+                method:"get",
+                dataType:"json",
+                url:"api/products",
+                success: function(data){
+                    $.each(data['data'],function(key,level){
+                        $("#table_products").append(
+                            '<tr>'+
+                                '<td>'+level.product_id+'</td>'+
+                                '<td>'+level.type+'</td>'+
+                                '<td>'+level.name+'</td>'+
+                                '<td>'+level.description+'</td>'+
+                                '<td><a class="btn btn-info" onclick="ProductLent\''+level.product_id+'\')">Emprestar</a></td>'+
+                                '<td><a class="btn btn-warning" href="/products/'+level.product_id+'">Editar</a></td>'+
+                                '<td><a class="btn btn-danger" onclick="ProductRemove(\''+level.product_id+'\')">Apagar</a></td>'+
+                            '</tr>'
+                        );
+                    })
+                }
+            });
+           setTimeout(ReloadTables, 100);
+        }
+
+    function ReloadTables() {
+        $('#table_products').DataTable({
+            destroy: true,
+            "language":{
+                 "decimal":        "",
+                "emptyTable":     "Nenhum dado encontrado",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
+                "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
+                "infoFiltered":   "(Filtrando de _MAX_ total entradas)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Carregando...",
+                "processing":     "Processando...",
+                "search":         "Localizar:",
+                "zeroRecords":    "Nenhum ocorrência encontrada",
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       "Próximo",
+                    "previous":   "Anterior",
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+                }
+            }
+        });
+    };
+
+    function ProductRemove(id){
+        $.ajax({
             method:"delete",
             dataType:"json",
             url:"api/products/" + id ,
-            success: function(){
-                alert("Produto deletado com sucesso");
+            success: function(data){
+
+                $("#table_products td").parent().remove();
+
+                msg = "<div class='alert alert-success' role='alert'>"+
+                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                      ""+data['data']['msg']+"</div>";
+                $("#msg").append(msg);
+
+                LoadProducts();
+            },
+            error: function(){
+                msg = "<div class='alert alert-danger' role='alert'>"+
+                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                      "Erro ao deletar arquivo!</div>";
+                $("#msg").append(msg);
             }
         })
-        })
-     }
+    }
 
 </script>
 @endsection

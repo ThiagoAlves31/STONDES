@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@yield('title')</title>
     <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>         
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"></">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <title>@yield('title')</title>     
 </head>
 <body>
 <header>
-    <ul class="nav justify-content-center" style="background-color:">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Produtos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Contatos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Emprestimos</a>
-        </li>
-    </ul>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark justify-content-center">
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contacts">Contatos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Empréstimos</a>
+          </li>
+        </ul>
+    </nav>
 </header>
+<style>
+    header {
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 70px;
+    }
+    .nav-link{
+        color:white
+    }
+</style>
