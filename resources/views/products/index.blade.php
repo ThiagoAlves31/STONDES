@@ -53,7 +53,7 @@
                 success: function(data){
                     $.each(data['data'],function(key,level){
                         $("#table_products").append(
-                            '<tr>'+
+                            '<tr id="'+level.product_id+'">'+
                                 '<td>'+level.product_id+'</td>'+
                                 '<td>'+level.type+'</td>'+
                                 '<td>'+level.name+'</td>'+
@@ -66,15 +66,17 @@
                     })
                 }
             });
-           setTimeout(ReloadTables, 100);
+           setTimeout(ReloadTables, 1000);
         }
 
     function ReloadTables() {
         $('#table_products').DataTable({
-            destroy: true,
+            "destroy": true,
+            "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+            "pageLength": 5,
             "language":{
                  "decimal":        "",
-                "emptyTable":     "Nenhum dado encontrado",
+                "emptyTable":     "Nenhuma informação encontrada",
                 "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
                 "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
                 "infoFiltered":   "(Filtrando de _MAX_ total entradas)",
@@ -100,28 +102,34 @@
     };
 
     function ProductRemove(id){
-        $.ajax({
-            method:"delete",
-            dataType:"json",
-            url:"api/products/" + id ,
-            success: function(data){
+        var resposta = confirm("Tem certeza que deseja remover o produto?");
 
-                $("#table_products td").parent().remove();
+        if (resposta == true) {
 
-                msg = "<div class='alert alert-success' role='alert'>"+
-                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                      ""+data['data']['msg']+"</div>";
-                $("#msg").append(msg);
+            $.ajax({
+                method:"delete",
+                dataType:"json",
+                url:"api/products/" + id ,
+                success: function(data){
 
-                LoadProducts();
-            },
-            error: function(){
-                msg = "<div class='alert alert-danger' role='alert'>"+
-                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                      "Erro ao deletar arquivo!</div>";
-                $("#msg").append(msg);
-            }
-        })
+                    //Remove linha da Tabela
+                    var data_table = $('#table_products').DataTable();
+                    data_table.row('#'+id+'').remove().draw();
+
+                    msg = "<div class='alert alert-success' role='alert'>"+
+                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                          ""+data['data']['msg']+"</div>";
+                    $("#msg").append(msg);
+
+                },
+                error: function(){
+                    msg = "<div class='alert alert-danger' role='alert'>"+
+                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                          "Erro ao deletar arquivo!</div>";
+                    $("#msg").append(msg);
+                }
+            })
+        }
     }
 
 </script>
