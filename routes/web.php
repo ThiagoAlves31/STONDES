@@ -28,6 +28,10 @@ Route::get('/contacts', function () {
     return view('contacts.index');
 });
 
+Route::get('/contactscreate', function () {
+    return view('contacts.create');
+});
+
 Route::get('/contacts/{id}', function ($id) {
 	$contact = App\Contacts::where('contact_id',$id)->first();
     return view('contacts.update',compact('contact'));

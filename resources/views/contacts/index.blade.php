@@ -28,7 +28,7 @@
         </div>
         <div class="row">
             <div class=".col-md">
-                <button type="button" class="btn btn-primary">Adicionar</button>
+                <a role="button" href="contactscreate/" class="btn btn-primary" >Adicionar</a>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 success: function(data){
                     $.each(data['data'],function(key,level){
                         $("#table_contacts").append(
-                            '<tr>'+
+                            '<tr id="'+level.contact_id+'">'+
                                 '<td>'+level.contact_id+'</td>'+
                                 '<td>'+level.contact_name+'</td>'+
                                 '<td>'+level.contact_phone+'</td>'+
@@ -100,27 +100,33 @@
     };
 
     function ContactRemove(id){
-        $.ajax({
-            method:"delete",
-            dataType:"json",
-            url:"api/contacts/" + id ,
-            success: function(data){
+        var resposta = confirm("Tem certeza que deseja remover o produto?");
 
-                $("#table_contacts td").parent().remove();
-                LoadContacts();
+        if (resposta == true) {
 
-                msg = "<div class='alert alert-success' role='alert'>"+
-                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                      ""+data['data']['msg']+"</div>";
-                $("#msg").append(msg);
-            },
-            error: function(){
-                msg = "<div class='alert alert-danger' role='alert'>"+
-                      "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                      "Erro ao deletar arquivo!</div>";
-                $("#msg").append(msg);
-            }
-        })
+            $.ajax({
+                method:"delete",
+                dataType:"json",
+                url:"api/contacts/" + id ,
+                success: function(data){
+
+                    //remove linha da tabela
+                    var data_table = $('#table_contacts').DataTable();
+                    data_table.row('#'+id+'').remove().draw();
+
+                    msg = "<div class='alert alert-success' role='alert'>"+
+                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                          ""+data['data']['msg']+"</div>";
+                    $("#msg").append(msg);
+                },
+                error: function(){
+                    msg = "<div class='alert alert-danger' role='alert'>"+
+                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                          "Erro ao deletar arquivo!</div>";
+                    $("#msg").append(msg);
+                }
+            })
+        }
     }
 
 </script>
