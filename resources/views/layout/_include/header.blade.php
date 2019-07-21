@@ -19,7 +19,7 @@
             <a class="nav-link" href="/contacts">Contatos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Empréstimos</a>
+            <a class="nav-link" href="/lents">Empréstimos</a>
           </li>
         </ul>
     </nav>

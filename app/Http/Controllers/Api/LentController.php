@@ -24,7 +24,14 @@ class LentController extends Controller
     {   
         $datas = DB::table('Lents')
             ->join('contacts', 'Lents.contact_id', '=', 'contacts.contact_id')
-            ->select('lents.*','contacts.contact_name')->get();
+            ->join('products','Lents.product_id', '=', 'products.product_id')
+            ->where('Lents.return_date','=',null)
+            ->select('lents.*',
+                     'products.type',
+                     'products.name',
+                     'contacts.contact_name',
+                     'contacts.contact_phone',
+                     'contacts.contact_email')->get();
         
         $data = ['data' => $datas];
         return response()->json($data);
@@ -82,10 +89,10 @@ class LentController extends Controller
         try{
 
             $LentData = $request->all();
-            $product_id = $LentData['product_id'];
+            $lent_id = $LentData['lent_id'];
 
 
-            $LentProduct = $this->lent->where(['product_id' => $product_id,'return_date' => null]);
+            $LentProduct = $this->lent->where(['lent_id' => $lent_id,'return_date' => null]);
 
             if (!$LentProduct->first())
             {

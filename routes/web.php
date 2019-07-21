@@ -42,3 +42,8 @@ Route::get('/productlent/{id}', function ($id) {
 	//$contact = App\Contact::where('contact_id',$id)->first();
     return view('products.lent',compact('lentProduct'));
 });
+
+Route::get('/lents', function () {
+    return view('lents.index');
+});
+
