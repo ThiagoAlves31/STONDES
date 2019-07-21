@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class=".col-md">
-                <a role="button" href="productss/" class="btn btn-primary">Adicionar Produto</a>
+                <a role="button" href="/productscreate" class="btn btn-primary">Adicionar Produto</a>
             </div>
         </div>
     </div>

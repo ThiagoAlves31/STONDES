@@ -57,14 +57,47 @@
                                 '<td>'+level.contact_name+'</td>'+
                                 '<td>'+level.contact_phone+'</td>'+
                                 '<td>'+level.contact_email+'</td>'+
-                                '<td><a class="btn btn-primary" href="/contacts/'+level.contact_id+'">@</a></td>'+
-                                '<td><a class="btn btn-danger" onclick="ContactRemove(\''+level.contact_id+'\')">X</a></td>'+
+                                '<td><a class="btn btn-warning" href="/contacts/'+level.contact_id+'">Editar</a></td>'+
+                                '<td><a class="btn btn-danger" onclick="ContactRemove(\''+level.contact_id+'\')">Apagar</a></td>'+
                             '</tr>'
                         );
                     })
                 }
             })
+            setTimeout(ReloadTables, 1000);
         }
+
+    function ReloadTables() {
+        $('#table_contacts').DataTable({
+            "destroy": true,
+            "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+            "pageLength": 5,
+            "language":{
+                 "decimal":        "",
+                "emptyTable":     "Nenhuma informação encontrada",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ entradas",
+                "infoEmpty":      "Mostrando 0 de 0 de 0 entradas",
+                "infoFiltered":   "(Filtrando de _MAX_ total entradas)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Carregando...",
+                "processing":     "Processando...",
+                "search":         "Localizar:",
+                "zeroRecords":    "Nenhum ocorrência encontrada",
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       "Próximo",
+                    "previous":   "Anterior",
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+                }
+            }
+        });
+    };
 
     function ContactRemove(id){
         $.ajax({

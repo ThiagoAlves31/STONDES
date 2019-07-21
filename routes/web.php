@@ -20,7 +20,7 @@ Route::get('/products/{id}', function ($id) {
     return view('products.update',compact('product'));
 });
 
-Route::get('/productss/', function () {
+Route::get('/productscreate', function () {
     return view('products.create');
 });
 
@@ -29,7 +29,7 @@ Route::get('/contacts', function () {
 });
 
 Route::get('/contacts/{id}', function ($id) {
-	$contact = App\Contact::where('contact_id',$id)->first();
+	$contact = App\Contacts::where('contact_id',$id)->first();
     return view('contacts.update',compact('contact'));
 });
 
