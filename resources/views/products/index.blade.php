@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class=".col-md">
-                <button type="button" class="btn btn-primary">Adicionar</button>
+                <a role="button" href="productss/" class="btn btn-primary">Adicionar Produto</a>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
                                 '<td>'+level.type+'</td>'+
                                 '<td>'+level.name+'</td>'+
                                 '<td>'+level.description+'</td>'+
-                                '<td><a class="btn btn-info" onclick="ProductLent\''+level.product_id+'\')">Emprestar</a></td>'+
+                                '<td><a class="btn btn-info" href="/productlent/'+level.product_id+'">Emprestar</a></td>'+
                                 '<td><a class="btn btn-warning" href="/products/'+level.product_id+'">Editar</a></td>'+
                                 '<td><a class="btn btn-danger" onclick="ProductRemove(\''+level.product_id+'\')">Apagar</a></td>'+
                             '</tr>'
@@ -66,7 +66,7 @@
                     })
                 }
             });
-           setTimeout(ReloadTables, 1000);
+           setTimeout(ReloadTables, 2000);
         }
 
     function ReloadTables() {

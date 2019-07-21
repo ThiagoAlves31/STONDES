@@ -6,6 +6,7 @@ use App\Lents;
 use App\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class LentController extends Controller
 {
@@ -19,10 +20,15 @@ class LentController extends Controller
 
     
     public function index()
-    {
+
+    {   
+        $datas = DB::table('Lents')
+            ->join('contacts', 'Lents.contact_id', '=', 'contacts.contact_id')
+            ->select('lents.*','contacts.contact_name')->get();
         
-        $data = ['data' => $this->lent->all()];
+        $data = ['data' => $datas];
         return response()->json($data);
+
     
     }
 
