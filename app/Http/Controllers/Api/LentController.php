@@ -22,10 +22,10 @@ class LentController extends Controller
     public function index()
 
     {   
-        $datas = DB::table('Lents')
-            ->join('contacts', 'Lents.contact_id', '=', 'contacts.contact_id')
-            ->join('products','Lents.product_id', '=', 'products.product_id')
-            ->where('Lents.return_date','=',null)
+        $datas = DB::table('lents')
+            ->join('contacts', 'lents.contact_id', '=', 'contacts.contact_id')
+            ->join('products','lents.product_id', '=', 'products.product_id')
+            ->where('lents.return_date','=',null)
             ->select('lents.*',
                      'products.type',
                      'products.name',
