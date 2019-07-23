@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Product;
 use App\API;
+use App\Lents;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -28,12 +29,27 @@ class ProductController extends Controller
     }
 
     public function noLent()
-    {
+    {   
 
-        $data = ['data' => DB::table('products')
-                                 ->leftjoin('lents','lents.product_id','=','products.product_id')
-                                 ->select('products.*')->get()];
-        return response()->json($data);
+        try{
+
+                $data = ['data' => DB::table('products')
+                                         ->whereNotIn('product_id',function($query){
+                                            $query->select('lents.product_id')->from('lents')
+                                                   ->whereNull('lents.return_date');
+                                         })->select('products.*')->get()];
+
+                return response()->json($data);
+
+            }catch(\Exception $e){
+            
+            if(config('app.debug')){
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
+            }
+
+            return response()->json(API\ApiError::errorMessage('Algum erro ocorreu',1010));
+
+        }
     
     }
 
