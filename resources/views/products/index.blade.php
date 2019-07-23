@@ -4,10 +4,11 @@
 
 @section('content')
     <div class="container">
-        <div class="row"><h3>Produtos disponíveis</h3></div>
         <div class="row">
             <div class=".col-md"><div id="msg"></div></div>
         </div>
+        <div class="row"><h3>Produtos disponíveis</h3></div>
+        <br>
         <div class="row">
         <div class=".col-md">
             <table class="table table-striped" id="table_products">
@@ -49,7 +50,7 @@
             $.ajax({
                 method:"get",
                 dataType:"json",
-                url:"api/products",
+                url:"api/products/nolent",
                 success: function(data){
                     $.each(data['data'],function(key,level){
                         $("#table_products").append(

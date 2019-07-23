@@ -4,11 +4,12 @@
 
 @section('content')
     <div class="container">
-        <h3 class="center">Atualizar Produto</h3>
-        <div class="row">
+		<div class="row">
             <div class=".col-md"><div id="msg"></div></div>
         </div>
-        <div class="row">
+        <h3 class="center">Atualizar Produto</h3>
+        <br>
+		<div class="row">
         	<div class="col-12">
 	   			<form class="" action="" method="post" enctype="">
 	   				{{ csrf_field() }}
@@ -17,9 +18,17 @@
 	   					<label>Código</label>
 	   					<input class="form-control" readonly="readonly" id="ProductId" value="{{ $product->product_id}}">
 	   				</div>
-	   				<div class="form-group">
-	   					<label>Tipo</label>
-	   					<input class="form-control" id="ProductType" value="{{ $product->type }}">
+					<div class="form-group">
+	   					<label for="ProductType">Tipo</label>
+                          <select class="form-control" id="ProductType" required="true">
+						    @if ( $product->type  == 'CD')
+								<option>Livro</option>
+							  	<option selected>CD</option>
+							@else
+								<option>CD</option>
+								<option selected>Livro</option>
+							@endif
+                          </select>
 	   				</div>
 	   				<div class="form-group">
 	   					<label>Título</label>

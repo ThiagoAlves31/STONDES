@@ -24,7 +24,7 @@
 	   					<label>Email</label>
 	   					<input class="form-control"  id="ContactEmail">
 	   				</div>	
-	   				<button type="button" class="btn btn-primary" onclick="ContactCreate()">Atualizar</button>
+	   				<button type="button" class="btn btn-primary" onclick="ContactCreate()">Adicionar</button>
 	   			</form>
 	   		</div>
         </div>

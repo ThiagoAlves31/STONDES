@@ -23,6 +23,7 @@ Route::namespace('Api')->name('api.')->group(function(){
     Route::prefix('products')->group(function(){
         
         Route::get('/','ProductController@index')->name('products_index');
+        Route::get('/nolent','ProductController@noLent')->name('products_nolent');
         Route::get('/{id}','ProductController@id')->name('products_id');
 
         Route::post('/','ProductController@InsertProduct')->name('products_insert');
