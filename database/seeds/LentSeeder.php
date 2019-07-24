@@ -11,6 +11,6 @@ class LentSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lents::class,8)->create();
+        factory(App\Lents::class,2)->create();
     }
 }

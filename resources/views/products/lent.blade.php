@@ -12,7 +12,6 @@
         		</div>
 	   			<form class="" action="" method="post" enctype="">
 	   				{{ csrf_field() }}
-	   				<input type="hidden" name="_method" value="put">
 	   				<div class="form-group">
 	   					<label>Código</label>
 	   					<input class="form-control" readonly="readonly" id="ProductId" value="{{ $lentProduct->product_id}}">
@@ -115,33 +114,41 @@
 
     function LentProductCreate(id){
         var resposta = confirm("Tem certeza que deseja emprestar o produto?");
-
+        
         if (resposta == true) {
             
             var idcontact = $("input[name='optioncontact']:checked").val();
-            datas = JSON.parse('{"product_id": "'+id+'","contact_id": "'+idcontact+'"}');
 
-            $.ajax({
-                method:"post",
-                dataType:"json",
-                url:"../api/lents/",
-                data:datas,
-                success: function(data){
+            if (idcontact != null){
 
-                    msg = "<div class='alert alert-success' role='alert'>"+
-                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                          ""+data['data']['msg']+"</div>";
-                    $("#msg").append(msg);
-                    $("#btnSubmit").attr("disabled", true);
+                datas = JSON.parse('{"product_id": "'+id+'","contact_id": "'+idcontact+'"}');
+                $.ajax({
+                    method:"post",
+                    dataType:"json",
+                    url:"../api/lents/",
+                    data:datas,
+                    success: function(data){
 
-                },
-                error: function(){
-                    msg = "<div class='alert alert-danger' role='alert'>"+
-                          "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
-                          "Erro ao fazer empréstimo ddo produto!</div>";
-                    $("#msg").append(msg);
-                }
-            })
+                        msg = "<div class='alert alert-success' role='alert'>"+
+                            "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                            ""+data['data']['msg']+"</div>";
+                        $("#msg").append(msg);
+                        $("#btnSubmit").attr("disabled", true);
+
+                    },
+                    error: function(){
+                        msg = "<div class='alert alert-danger' role='alert'>"+
+                            "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                            "Erro ao fazer empréstimo ddo produto!</div>";
+                        $("#msg").append(msg);
+                    }
+                })
+            }else{ 
+                msg = "<div class='alert alert-danger' role='alert'>"+
+                            "<a href='#' class='close' data-dismiss='alert' aria-label='Close'>&times;</a>"+
+                            "Escolha um contato antes de continuar!</div>";
+                $("#msg").append(msg);
+            }
         }
     }
 </script>
