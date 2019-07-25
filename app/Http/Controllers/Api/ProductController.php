@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
         try{
 
-                $data = ['data' => $this->prodct->all()];
+                $data = ['data' => $this->product->all()];
                 return response()->json($data);
 
 

@@ -7,7 +7,7 @@ class ApiError
     public static function errorMessage ($message, $code, $request_help = null)
     {	
 
-    	$product_help = ['type' => 'CD|DVD',
+    	$product_help = ['type' => 'CD|Livro',
     					 'name' => 'Titulo do produto',
  	   					 'description'  => 'Descrição do produto'];
 

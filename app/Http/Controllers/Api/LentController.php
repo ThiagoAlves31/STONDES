@@ -68,7 +68,7 @@ class LentController extends Controller
             $product_id = $contactData['product_id'];
 
             //Verifica se o produto está disponĩvel
-            $lent = $this->lent->where(['product_id' => $product_id,'return_date' =>null])->first();
+            $lent = $this->lent->where(['product_id' => $product_id,'return_date' => null])->first();
 
             If ($lent)
             {
@@ -102,7 +102,7 @@ class LentController extends Controller
 
             if (!$LentProduct->first())
             {
-                $data = ['data' => ['msg'=> 'Produto não encontrado!']];
+                $data = ['data' => ['msg'=> 'Emprestimo não encontrado!']];
                 return  response()->json($data,404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
             }
 
@@ -113,7 +113,7 @@ class LentController extends Controller
 
         }catch(\Exception $e){
 
-            return response()->json(API\ApiError::errorMessage($e->getMessage(),400,'lent'),400);
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),400),400);
         }
 
     }
