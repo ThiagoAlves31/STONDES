@@ -64,7 +64,7 @@
                     })
                 }
             })
-            setTimeout(ReloadTables, 1000);
+            setTimeout(ReloadTables, 100);
         }
 
     function ReloadTables() {

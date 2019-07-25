@@ -22,17 +22,23 @@ class ProductController extends Controller
     
     public function index()
     {
+        try{
 
-        $data = ['data' => $this->product->all()];
-        return response()->json($data);
-    
+                $data = ['data' => $this->prodct->all()];
+                return response()->json($data);
+
+
+            }catch(\Exception $e){
+            
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),$e->getCode()));
+            
+            }    
     }
 
     public function noLent()
     {   
 
         try{
-
                 $data = ['data' => DB::table('products')
                                          ->whereNotIn('product_id',function($query){
                                             $query->select('lents.product_id')->from('lents')
@@ -42,24 +48,23 @@ class ProductController extends Controller
                 return response()->json($data);
 
             }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),$e->getMessage()));
             }
-
-            return response()->json(API\ApiError::errorMessage('Algum erro ocorreu',1010));
-
-        }
     
     }
 
     public function id($id)
     {
-        $product = $this->product->where('product_id',$id)->first();
+        try{
+                $product = $this->product->where('product_id',$id)->first();
 
-        if (!$product) return response()->json(['data' => ['msg' => 'Produto não encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
-        $data = ['data' => $product];
-        return response()->json($data);
+                if (!$product) return response()->json(['data' => ['msg' => 'Produto não encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+                $data = ['data' => $product];
+                return response()->json($data);
+
+            }catch(\Exception $e){
+                return response()->json(API\ApiError::errorMessage($e->getMessage(),$e->getMessage()));
+            }
 
     }
 
@@ -75,15 +80,8 @@ class ProductController extends Controller
             return response()->json($data,201);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
-
-            return response()->json(API\ApiError::errorMessage('Houve um erro na inserção dos dados',1010));
-
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),400,'product'),400);
         }
-
     }
 
     public function UpdateProduct(Request $request,$id)
@@ -91,6 +89,14 @@ class ProductController extends Controller
         try{
             
             $productData = $request->all();
+            $product= $this->product->where('product_id',$id)->first();
+
+            if(!$product)
+            {
+                return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+
+            }
+            
             $product     = $this->product->where('product_id',$id);
             $product->Update($productData);
             
@@ -98,15 +104,9 @@ class ProductController extends Controller
             return response()->json($data,201);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
-
-            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados',1010),422);
-
+        
+            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados',422,'product'),422);
         }
-
     }
 
     public function DeleteProduct($id)
@@ -128,13 +128,7 @@ class ProductController extends Controller
             return response()->json($data,200);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
-
-            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados'),1010);
-
+            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados','product'),204);
         }
 
     }

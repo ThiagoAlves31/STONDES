@@ -49,11 +49,7 @@ class ContactController extends Controller
 
         }catch(\Exception $e){
             
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
-
-            return response()->json(API\ApiError::errorMessage('Houve um erro na inclusão do contato',1010));
+            return response()->json(API\ApiError::errorMessage('Houve um erro na inclusão do contato',400,'contact'),400);
 
         }
 
@@ -64,20 +60,19 @@ class ContactController extends Controller
         try{
             
             $contactData = $request->all();
+            $contact     = $this->contact->where('contact_id',$id)->first();
+            
+            if(!$contact) return response()->json(['data' => ['msg' => 'Contato id='.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+            
             $contact     = $this->contact->where('contact_id',$id);
-
             $contact->Update($contactData);
             
             $data = ['data' => ['msg'=> 'Contato atualizado com sucesso!']]; 
             return response()->json($data,201);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage()));
-            }
 
-            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados'));
+            return response()->json(API\ApiError::errorMessage('Houve um erro na atualização dos dados',422,'contact'),422);
 
         }
 
@@ -88,9 +83,9 @@ class ContactController extends Controller
         try{
             
             $contactData = $request->all();
-            $contact     = $this->contact->where('contact_id',$id);
+            $contact     = $this->contact->where('contact_id',$id)->first();
 
-            if(!$contact) return response()->json(['data' => ['msg' => 'Contato nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+            if(!$contact) return response()->json(['data' => ['msg' => 'Contato id='.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
             $contact->Delete($contactData);
             
@@ -98,13 +93,8 @@ class ContactController extends Controller
             return response()->json($data,200);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage()));
-            }
 
-            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados'));
-
+            return response()->json(API\ApiError::errorMessage('Houve um erro na exclusão dos dados','contact'),204);
         }
 
     }

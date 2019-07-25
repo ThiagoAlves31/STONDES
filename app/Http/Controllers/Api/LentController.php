@@ -22,30 +22,40 @@ class LentController extends Controller
     public function index()
 
     {   
-        $datas = DB::table('lents')
-            ->join('contacts', 'lents.contact_id', '=', 'contacts.contact_id')
-            ->join('products','lents.product_id', '=', 'products.product_id')
-            ->where('lents.return_date','=',null)
-            ->select('lents.*',
-                     'products.type',
-                     'products.name',
-                     'contacts.contact_name',
-                     'contacts.contact_phone',
-                     'contacts.contact_email')->get();
+        try{
+            $datas = DB::table('lents')
+                ->join('contacts', 'lents.contact_id', '=', 'contacts.contact_id')
+                ->join('products','lents.product_id', '=', 'products.product_id')
+                ->where('lents.return_date','=',null)
+                ->select('lents.*',
+                         'products.type',
+                         'products.name',
+                         'contacts.contact_name',
+                         'contacts.contact_phone',
+                         'contacts.contact_email')->get();
+            
+            $data = ['data' => $datas];
+            return response()->json($data);
         
-        $data = ['data' => $datas];
-        return response()->json($data);
+        }catch(\Exception $e){
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),$e->getMessage()));
+        }
 
     
     }
 
     public function id($id)
     {
+        try{
 
-        $lent = $this->lent->where('lent_id',$id)->first();
-        if (!$lent) return response()->json(['data' => ['msg' => 'Empréstimo não encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
-        $data = ['data' => $lent];
-        return response()->json($data,201);
+            $lent = $this->lent->where('lent_id',$id)->first();
+            if (!$lent) return response()->json(['data' => ['msg' => 'Empréstimo não encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+            $data = ['data' => $lent];
+            return response()->json($data,201);
+        
+        }catch(\Exception $e){
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),$e->getMessage()));
+        }
 
     }
 
@@ -73,12 +83,8 @@ class LentController extends Controller
             return response()->json($data,201,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
 
-            return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),400,'lent'),400);
 
         }
 
@@ -106,13 +112,8 @@ class LentController extends Controller
             return response()->json($data,201);
 
         }catch(\Exception $e){
-            
-            if(config('app.debug')){
-                return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-            }
 
-            return response()->json(API\ApiError::errorMessage($e->getMessage(),1010));
-
+            return response()->json(API\ApiError::errorMessage($e->getMessage(),400,'lent'),400);
         }
 
     }
