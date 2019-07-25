@@ -1,5 +1,5 @@
 ### STONDES
-
+----
 Pré-requisitos:
 - [Git](https://git-scm.com/ "Git")
 - [Composer](https://getcomposer.org/ "Composer")
@@ -50,3 +50,53 @@ Pronto, já estamos com o ambiente funcionando
 Basta apenas acessar http://localhost:8080
 
 ### Utilizando API
+#### Produtos
+- GET  /api/products        - Lista todos os produtos
+- GET  /api/products/{id}   - Lista um produto pelo id
+- POST /api/products        - Cria um novo produto passando um Json. (Tipo somente Livro ou CD)
+```
+{
+    "type": "CD",
+    "name": "Red Hot",
+    "description": "Californication"
+}
+```
+- PUT /api/products/{id}    - Atualiza um produto passando um id e Json.Podendo atualizar 1 ou mais ítens do produto
+```
+{
+    "name": "PHP - 2019",
+    "description": "Atualizando descrição"
+}
+```
+- DELETE /api/products/{id} - Deleta um produto pelo id
+
+#### Contatos
+- GET  /api/contacts        - Lista todos os contatos
+- GET  /api/contacts/{id}   - Lista um contato pelo id
+- POST /api/contacts        - Cria um novo contato passando um Json.
+```
+{
+    "contact_name": "José",
+    "contact_phone": "21-2222-2222",
+    "contact_email": "jose@jose.com"
+}
+```
+- PUT /api/contacts/{id}    - Atualiza um contato passando um id e Json.Podendo atualizar 1 ou mais ítens do contato
+```
+{
+    "contact_phone": "21-3333-2222",
+}
+```
+- DELETE /api/contacts/{id} - Deleta um contato pelo id
+
+#### Empréstimos
+- GET  /api/lents           - Lista todos os empréstimos do momento
+- GET  /api/lents/{id}      - Lista um empréstimo pelo id
+- POST /api/lents           - Cria um novo empréstimo passando um Json.
+```
+{
+    "contact_id": 5,
+    "product_id": 2,
+}
+```
+- PUT /api/lents/{id}    - Desfaz um empréstimo passando um id.
